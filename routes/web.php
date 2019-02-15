@@ -11,11 +11,19 @@
 |
 */
 
-Route::get('/hello', function () {
+Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/admin', 'AdminController@login');
+
+Route::match(['get', 'post'], '/admin','AdminController@login')->name('admin');
+
+Route::get('/logout', 'AdminController@logout')->name('logout');
 
 Auth::routes();
+
+Route::group(['middleware' => ['auth']], function () {
+    Route::get('/admin/dashboard','AdminController@dashboard')->name('admin-dashboard');  
+    Route::get('/admin/settings','AdminController@settings')->name('admin-settings');
+});
 
 Route::get('/home', 'HomeController@index')->name('home');

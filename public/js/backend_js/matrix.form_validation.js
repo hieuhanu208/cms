@@ -1,5 +1,18 @@
 
 $(document).ready(function(){
+	$("#new_pwd").click(function(){
+		var current_pwd = $("#current_pwd").val();
+		$.ajax({
+			type:'get',
+			url:'/admin/check-pwd',
+			data:{current_pwd:current_pwd},
+			success:function(res){
+				alert(res);
+			} , error:function(){
+				alert("Error");
+			}
+		});
+	});
 	
 	$('input[type=checkbox],input[type=radio],input[type=file]').uniform();
 	
@@ -63,16 +76,21 @@ $(document).ready(function(){
 	
 	$("#password_validate").validate({
 		rules:{
-			pwd:{
+			current_pwd:{
 				required: true,
 				minlength:6,
 				maxlength:20
 			},
-			pwd2:{
+			new_pwd:{
+				required: true,
+				minlength:6,
+				maxlength:20
+			},
+			confirm_pwd:{
 				required:true,
 				minlength:6,
 				maxlength:20,
-				equalTo:"#pwd"
+				equalTo:"#new_pwd"
 			}
 		},
 		errorClass: "help-inline",
