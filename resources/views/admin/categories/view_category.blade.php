@@ -7,6 +7,9 @@
     </div>
     <div class="container-fluid">
       <hr>
+      @if (Session::has('errors'))
+      <div class="alert alert-success">{{session('errors')}}</div>
+      @endif
       <div class="row-fluid">
         <div class="span12">
          
@@ -32,7 +35,7 @@
                     <td>{{$item->id}}</td>
                     <td>{{$item->name}}</td>
                     <td>{{$item->url}}</td>
-                    <td class="center">Edit |Delete</td>
+                    <td class="center"><a href="{{url('/admin/edit-category',$item->id)}}" class="btn btn-primary btn-mini">Edit</a> <a href="{{url('/admin/add-category')}}" class="btn btn-danger btn-mini">Delete</a></td>
                   </tr>
                   @endforeach
                  

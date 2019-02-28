@@ -14,7 +14,7 @@ class CategoryController extends Controller
             $category->description= $req->description;
             $category->url= $req->url;
             $category->save();
-            return redirect('/admin/view-categories')->with('success-message','The category had been created successfully');
+            return redirect('/admin/view-categories')->with('errors','The category has been created');
         }
         return view('admin.categories.add_category');
     }
@@ -22,5 +22,16 @@ class CategoryController extends Controller
     public function viewCategory(){
         $category = Category::all();
         return view('admin.categories.view_category', compact('category'));
+    }
+    public function editCategory(Request $rq, $id=null){
+        if ($rq->isMethod('post')) {
+            $data = $rq->all();
+            Category::where(['id'=>$id])->update(['name'=>$data['category_name'],'description'=>$data['description'],'url'=>$data['url']]);
+            return redirect('/admin/view-categories');
+        }
+
+        $categoryDetails = Category::where(['id'=>$id])->first();
+        return view('admin.categories.edit_category',compact('categoryDetails'));
+
     }
 }
